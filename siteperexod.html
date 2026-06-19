@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUDOM NEWS & CLUB AZARTA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            /* Цвет подогнан под палитру твоей аватарки */
+            background-color: #050814;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Атмосферный неоновый бэкграунд под стиль авы */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.15) 0%, rgba(0, 122, 255, 0.05) 50%, rgba(0,0,0,0) 70%);
+            top: 10%;
+            z-index: 0;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 1;
+            width: 100%;
+            max-width: 360px;
+            padding: 20px;
+        }
+
+        /* Главная аватарка (avatar.jpeg) */
+        .main-avatar {
+            width: 115px;
+            height: 115px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(138, 43, 226, 0.7);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.4);
+            margin-bottom: 35px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .main-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 35px rgba(138, 43, 226, 0.8);
+        }
+
+        /* Список кнопок */
+        .links-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* Базовый стиль кнопок */
+        .btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        /* Аватарки внутри кнопок */
+        .btn-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-text {
+            flex-grow: 1;
+            text-align: left;
+            padding-left: 4px;
+        }
+
+        /* Эффекты наведения для Канала (Фиолетовый неон) */
+        .btn-channel:hover {
+            background: linear-gradient(135deg, #7b1fa2, #4a148c);
+            border-color: #e040fb;
+            box-shadow: 0 0 25px rgba(224, 64, 251, 0.6);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        /* Эффекты наведения для Чата (Сине-фиолетовый под стиль авы) */
+        .btn-chat:hover {
+            background: linear-gradient(135deg, #4a00e0, #007aff);
+            border-color: #00f0ff;
+            box-shadow: 0 0 25px rgba(0, 122, 255, 0.6);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        /* Блок восклицательного знака */
+        .info-container {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            z-index: 10;
+        }
+
+        .info-badge {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: help;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        /* Всплывающий дисклеймер (Tooltip) */
+        .tooltip {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            width: 260px;
+            padding: 15px;
+            background: rgba(10, 12, 22, 0.98);
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 12px;
+            line-height: 1.5;
+            text-align: left;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.8);
+            backdrop-filter: blur(15px);
+            
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .info-container:hover .info-badge {
+            background: rgba(138, 43, 226, 0.2);
+            color: #fff;
+            border-color: rgba(138, 43, 226, 0.5);
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.4);
+        }
+
+        .info-container:hover .tooltip {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Всплывающее предупреждение по наведению -->
+    <div class="info-container">
+        <div class="info-badge">!</div>
+        <div class="tooltip">
+            <strong>Предупреждение:</strong><br>
+            Мы никого не принуждаем переходить по ссылкам в Telegram. Мы раздаём бонусы, выдаем деньги, подписки, ваучеры и промокоды. Но никак не относимся к вашим деньгам. Все действия вы совершаете исключительно по собственной воле. Контент носит "подарочный", ознакомительный, развлекательный характеры. 
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- ТВОЯ АВАТАРКА СВЕРХУ -->
+        <img src="avatar.jpeg" alt="Avatar" class="main-avatar">
+
+        <div class="links-wrapper">
+            <!-- КНОПКА КАНАЛА LUDOM NEWS -->
+            <a href="https://t.me/+RsA2KKAkmKI4ZDMy" class="btn btn-channel" target="_blank">
+                <img src="channel2.jpeg" alt="LUDOM NEWS" class="btn-avatar">
+                <span class="btn-text">Канал: LudomNews</span>
+            </a>
+            
+            <!-- КНОПКА ЧАТА CLUB AZARTA -->
+            <a href="https://t.me/+mEXTNHYAA_0zNjZi" class="btn btn-chat" target="_blank">
+                <img src="chat1.jpeg" alt="CLUB AZARTA" class="btn-avatar">
+                <span class="btn-text">Чат: ClubAzarta</span>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
